@@ -1,8 +1,12 @@
 #!/usr/bin/python
-
+import sys
+from time import time
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
+from sklearn.neighbors import NearestNeighbors
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -31,12 +35,23 @@ plt.show()
 ### your code here!  name your classifier object clf if you want the 
 ### visualization code (prettyPicture) to show you the decision boundary
 
+t0 = time()
+# nearest neighbours
+# clf = NearestNeighbors(algorithm='ball_tree')
 
+# random forest
+# clf = RandomForestClassifier(max_depth=2, random_state=0)
 
+# adaboost
+clf = AdaBoostClassifier()
+clf.fit(features_train, labels_train)
+print "training time:", round(time()-t0, 3), "s"
 
-
-
-
+t0 = time()
+prediction = clf.predict(features_test)
+print "prediction time:", round(time()-t0, 3), "s"
+accuracy = clf.score(features_test, labels_test)
+print "score : %f " % accuracy
 
 try:
     prettyPicture(clf, features_test, labels_test)
