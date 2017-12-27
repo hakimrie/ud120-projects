@@ -29,3 +29,4 @@ for key, value in enron_data.items():
 print "num POI ", numpoi
 
 print enron_data["Prentice James".upper()]["total_stock_value"]
+print "number of message of Wesley Colwell to POI: ", enron_data["Colwell Wesley".upper()]["from_this_person_to_poi"]
