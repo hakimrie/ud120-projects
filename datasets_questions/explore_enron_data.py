@@ -19,4 +19,11 @@ import pickle
 
 enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
 
+print len(enron_data)
+print len(enron_data["SKILLING JEFFREY K"])
+numpoi = 0
+for key, value in enron_data.items():
+    if enron_data[key]['poi'] == 1:
+        numpoi = numpoi + 1
 
+print "num POI ", numpoi
