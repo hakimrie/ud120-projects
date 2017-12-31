@@ -5,6 +5,9 @@ import pickle
 import re
 import sys
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+
 sys.path.append( "../tools/" )
 from parse_out_email_text import parseOutText
 
@@ -41,24 +44,33 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
     for path in from_person:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
-        temp_counter += 1
-        if temp_counter < 200:
-            path = os.path.join('..', path[:-1])
-            print path
-            email = open(path, "r")
+        # temp_counter += 1
+        # if temp_counter < 200:
+        path = os.path.join('..', path[:-1])
+        # print path
+        email = open(path, "r")
 
-            ### use parseOutText to extract the text from the opened email
+        ### use parseOutText to extract the text from the opened email
+        words = parseOutText(email)
+        ### use str.replace() to remove any instances of the words
+        ### ["sara", "shackleton", "chris", "germani"]
+        words = words.replace("sara", "").replace("shackleton", "").replace("chris", "").replace("germani", "")
+        ### append the text to word_data
+        word_data.append(words)
+        ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+        if name == "sara":
+            from_data.append(0)
+        elif name == "chris":
+            from_data.append(1)
 
-            ### use str.replace() to remove any instances of the words
-            ### ["sara", "shackleton", "chris", "germani"]
+        email.close()
 
-            ### append the text to word_data
-
-            ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
-
-
-            email.close()
-
+# print word_data[152]
+vectorizer = TfidfVectorizer(stop_words='english')
+fit_transform = vectorizer.fit_transform(word_data)
+feature_names = vectorizer.get_feature_names()
+print "number of words: ", len(feature_names)
+print "word number 34597 is ", feature_names[34597]
 print "emails processed"
 from_sara.close()
 from_chris.close()
