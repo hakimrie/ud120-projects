@@ -2,6 +2,8 @@
 
 import pickle
 import numpy
+from time import time
+from sklearn.tree import DecisionTreeClassifier
 numpy.random.seed(42)
 
 
@@ -39,5 +41,11 @@ labels_train   = labels_train[:150]
 
 ### your code goes here
 
-
+clf = DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
+t0 = time()
+prediction = clf.predict(features_test)
+print "prediction time:", round(time()-t0, 3), "s"
+accuracy = clf.score(features_test, labels_test)
+print "accuracy ", accuracy
 
