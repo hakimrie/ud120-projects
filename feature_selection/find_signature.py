@@ -31,7 +31,7 @@ features_train = vectorizer.fit_transform(features_train)
 features_test  = vectorizer.transform(features_test).toarray()
 
 print len(vectorizer.get_feature_names())
-print "text: ", vectorizer.get_feature_names()[33614]
+print "text: ", vectorizer.get_feature_names()[14343]
 
 ### a classic way to overfit is to use a small number
 ### of data points and a large number of features;
