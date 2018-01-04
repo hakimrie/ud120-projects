@@ -41,11 +41,17 @@ labels_train   = labels_train[:150]
 
 ### your code goes here
 
-clf = DecisionTreeClassifier()
+clf = DecisionTreeClassifier(min_samples_split=40)
 clf.fit(features_train, labels_train)
 t0 = time()
 prediction = clf.predict(features_test)
 print "prediction time:", round(time()-t0, 3), "s"
+importances = clf.feature_importances_
+number = 0
+for feature in importances:
+    if importances[number] > 0.2:
+        print "feature: %s number %s" % (feature, number)
+    number += 1
+
 accuracy = clf.score(features_test, labels_test)
 print "accuracy ", accuracy
-
